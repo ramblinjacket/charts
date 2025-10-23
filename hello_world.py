@@ -1,3 +1,5 @@
+from skill_framework.skills import SkillInput, SkillOutput, SkillParameter, skill
+
 @skill(
     name="hello_world",
     description="A simple hello world skill that greets the user.",
