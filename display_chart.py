@@ -1,10 +1,14 @@
 from __future__ import annotations
 
 import json
+import logging
 from typing import Any
 
 from answer_rocket.client import AnswerRocketClient
 from skill_framework.skills import SkillInput, SkillOutput, SkillParameter, skill
+
+
+logger = logging.getLogger(__name__)
 
 
 def _as_json(payload: Any) -> str:
@@ -96,6 +100,9 @@ def display_chart(parameters: SkillInput) -> SkillOutput:
     chart_options = _as_mapping(payload)
 
     visualization = {
+        "title": "Display Chart",
+        "layout": "standard",
+        "content": {
             "type": "Document",
             "gap": "0px",
             "style": {
@@ -111,7 +118,10 @@ def display_chart(parameters: SkillInput) -> SkillOutput:
                     "options": chart_options,
                 }
             ],
-        }
+        },
+    }
+
+    logger.info("Display Chart visualization payload:\n%s", _as_json(visualization))
 
     return SkillOutput(
         final_prompt=_as_json(payload),
