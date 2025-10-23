@@ -96,9 +96,6 @@ def display_chart(parameters: SkillInput) -> SkillOutput:
     chart_options = _as_mapping(payload)
 
     visualization = {
-        "title": "Display Chart",
-        "layout": "standard",
-        "content": {
             "type": "Document",
             "gap": "0px",
             "style": {
@@ -114,8 +111,7 @@ def display_chart(parameters: SkillInput) -> SkillOutput:
                     "options": chart_options,
                 }
             ],
-        },
-    }
+        }
 
     return SkillOutput(
         final_prompt=_as_json(payload),
