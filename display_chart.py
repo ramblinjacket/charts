@@ -26,6 +26,24 @@ def _as_json(payload: Any) -> str:
         return str(candidate)
 
 
+def _as_mapping(payload: Any) -> Any:
+    """Attempt to return payload as a structure suitable for visualization options."""
+    if isinstance(payload, str):
+        try:
+            return json.loads(payload)
+        except json.JSONDecodeError:
+            return payload
+
+    if hasattr(payload, "model_dump"):
+        return payload.model_dump()  # type: ignore[attr-defined]
+    if hasattr(payload, "dict"):
+        return payload.dict()  # type: ignore[call-arg]
+    if hasattr(payload, "__dict__"):
+        return vars(payload)
+
+    return payload
+
+
 @skill(
     name="Display Chart",
     description="Retrieve a chart payload from skill memory and present it to the user.",
@@ -75,9 +93,29 @@ def display_chart(parameters: SkillInput) -> SkillOutput:
             export_data=[],
         )
 
+    chart_options = _as_mapping(payload)
+
+    visualization = {
+        "type": "Document",
+        "gap": "0px",
+        "style": {
+            "backgroundColor": "#ffffff",
+            "width": "100%",
+            "height": "max-content",
+        },
+        "children": [
+            {
+                "name": "HighchartsChart0",
+                "type": "HighchartsChart",
+                "minHeight": "400px",
+                "options": chart_options,
+            }
+        ],
+    }
+
     return SkillOutput(
         final_prompt=_as_json(payload),
         narrative="",
-        visualizations=[],
+        visualizations=[visualization],
         export_data=[],
     )
