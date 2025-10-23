@@ -96,21 +96,25 @@ def display_chart(parameters: SkillInput) -> SkillOutput:
     chart_options = _as_mapping(payload)
 
     visualization = {
-        "type": "Document",
-        "gap": "0px",
-        "style": {
-            "backgroundColor": "#ffffff",
-            "width": "100%",
-            "height": "max-content",
+        "title": "Display Chart",
+        "layout": "standard",
+        "content": {
+            "type": "Document",
+            "gap": "0px",
+            "style": {
+                "backgroundColor": "#ffffff",
+                "width": "100%",
+                "height": "max-content",
+            },
+            "children": [
+                {
+                    "name": "HighchartsChart0",
+                    "type": "HighchartsChart",
+                    "minHeight": "400px",
+                    "options": chart_options,
+                }
+            ],
         },
-        "children": [
-            {
-                "name": "HighchartsChart0",
-                "type": "HighchartsChart",
-                "minHeight": "400px",
-                "options": chart_options,
-            }
-        ],
     }
 
     return SkillOutput(
