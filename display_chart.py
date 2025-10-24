@@ -124,7 +124,7 @@ def display_chart(parameters: SkillInput) -> SkillOutput:
 
     visualization = SkillVisualization(title="Display Chart", layout=layout)
 
-    logger.info("Display Chart visualization payload:\n%s", _as_json(visualization))
+    #logger.info("Display Chart visualization payload:\n%s", _as_json(visualization))
 
     return SkillOutput(
         final_prompt=_as_json(payload),
