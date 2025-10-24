@@ -98,16 +98,10 @@ def display_chart(parameters: SkillInput) -> SkillOutput:
         )
 
     chart_payload = _as_mapping(payload)
-    visualization_options = chart_payload
     if isinstance(chart_payload, dict):
-        chart_data = chart_payload.get("data", chart_payload)
-        if "type" in chart_payload:
-            visualization_options = {
-                "type": chart_payload["type"],
-                "data": chart_data,
-            }
-        else:
-            visualization_options = chart_data
+        chart_options = chart_payload.get("data", chart_payload)
+    else:
+        chart_options = chart_payload
 
     visualization = {
         "title": "Display Chart",
@@ -125,7 +119,7 @@ def display_chart(parameters: SkillInput) -> SkillOutput:
                     "name": "HighchartsChart0",
                     "type": "HighchartsChart",
                     "minHeight": "400px",
-                    "options": visualization_options,
+                    "options": chart_options,
                 }
             ],
         },
