@@ -100,11 +100,22 @@ def display_chart(parameters: SkillInput) -> SkillOutput:
     chart_options = _as_mapping(payload)
 
     visualization = {
-        "name": "HighchartsChart0",
-        "type": "HighchartsChart",
-        "minHeight": "400px",
-        "options": chart_options
+  "type": "Document",
+  "gap": "0px",
+  "style": {
+    "backgroundColor": "#ffffff",
+    "width": "100%",
+    "height": "max-content"
+  },
+  "children": [
+    {
+      "name": "HighchartsChart0",
+      "type": "HighchartsChart",
+      "minHeight": "400px",
+      "options": chart_options
     }
+  ]
+}
 
     logger.info("Display Chart visualization payload:\n%s", _as_json(visualization))
 
