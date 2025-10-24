@@ -8,50 +8,56 @@ from skill_framework.skills import SkillInput, SkillOutput, skill
 # Basic Highcharts JSON payload we want to persist with the chat entry
 HIGHCHART_CONFIGURATION = {
     "chart": {
-      "type": "bar"
+      "type": "area"
     },
     "title": {
-      "text": "Top 8 Segments by Total Sales (2022)",
+      "text": "Sample Highchart",
       "style": {
-        "fontSize": "18px",
-        "fontWeight": "bold"
-      }
-    },
-    "series": [
-      {
-        "name": "total_sales",
-        "data": [
-          799834847.8699951,
-          798769147.5819905,
-          568545246.4949996,
-          117811767.06799985,
-          39237618.809,
-          20666835.681,
-          1366.1100000000001
-        ]
-      }
-    ],
-    "yAxis": {
-      "title": {
-        "text": ""
+        "fontSize": "20px"
       }
     },
     "xAxis": {
       "categories": [
-        "sample",
-        "chart",
-        "FILLED PASTA",
-        "BAKING",
-        "this",
-        "is",
-        "a"
+        "Category A",
+        "Category B",
+        "Category C"
       ],
       "title": {
-        "text": ""
+        "text": "Categories"
+      }
+    },
+    "yAxis": {
+      "title": {
+        "text": "Values"
+      }
+    },
+    "series": [
+      {
+        "name": "Series 1",
+        "data": [
+          10,
+          20,
+          30
+        ]
+      }
+    ],
+    "credits": {
+    },
+    "legend": {
+      "align": "center",
+      "verticalAlign": "bottom",
+      "layout": "horizontal"
+    },
+    "plotOptions": {
+      "column": {
+        "dataLabels": {
+          "style": {
+            "fontSize": ""
+          }
+        }
       }
     }
   }
-
 
 @skill(
     name="Data Explorer",
