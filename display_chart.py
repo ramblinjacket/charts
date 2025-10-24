@@ -5,6 +5,7 @@ import logging
 from typing import Any
 
 from answer_rocket.client import AnswerRocketClient
+from skill_framework import SkillVisualization
 from skill_framework.skills import SkillInput, SkillOutput, SkillParameter, skill
 
 
@@ -103,27 +104,25 @@ def display_chart(parameters: SkillInput) -> SkillOutput:
     else:
         chart_options = chart_payload
 
-    visualization = {
-        "title": "Display Chart",
-        "layout": "standard",
-        "content": {
-            "type": "Document",
-            "gap": "0px",
-            "style": {
-                "backgroundColor": "#ffffff",
-                "width": "100%",
-                "height": "max-content",
-            },
-            "children": [
-                {
-                    "name": "HighchartsChart0",
-                    "type": "HighchartsChart",
-                    "minHeight": "400px",
-                    "options": chart_options,
-                }
-            ],
+    layout = {
+        "type": "Document",
+        "gap": "0px",
+        "style": {
+            "backgroundColor": "#ffffff",
+            "width": "100%",
+            "height": "max-content",
         },
+        "children": [
+            {
+                "name": "HighchartsChart0",
+                "type": "HighchartsChart",
+                "minHeight": "400px",
+                "options": chart_options,
+            }
+        ],
     }
+
+    visualization = SkillVisualization(title="Display Chart", layout=visualization)
 
     logger.info("Display Chart visualization payload:\n%s", _as_json(visualization))
 
