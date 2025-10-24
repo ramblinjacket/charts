@@ -98,27 +98,37 @@ def display_chart(parameters: SkillInput) -> SkillOutput:
         )
 
     chart_payload = _as_mapping(payload)
-    if isinstance(chart_payload, dict) and "data" in chart_payload:
-        chart_options = chart_payload["data"]
-    else:
-        chart_options = chart_payload
+    visualization_options = chart_payload
+    if isinstance(chart_payload, dict):
+        chart_data = chart_payload.get("data", chart_payload)
+        if "type" in chart_payload:
+            visualization_options = {
+                "type": chart_payload["type"],
+                "data": chart_data,
+            }
+        else:
+            visualization_options = chart_data
 
     visualization = {
-        "type": "Document",
-        "gap": "0px",
-        "style": {
-            "backgroundColor": "#ffffff",
-            "width": "100%",
-            "height": "max-content",
+        "title": "Display Chart",
+        "layout": "standard",
+        "content": {
+            "type": "Document",
+            "gap": "0px",
+            "style": {
+                "backgroundColor": "#ffffff",
+                "width": "100%",
+                "height": "max-content",
+            },
+            "children": [
+                {
+                    "name": "HighchartsChart0",
+                    "type": "HighchartsChart",
+                    "minHeight": "400px",
+                    "options": visualization_options,
+                }
+            ],
         },
-        "children": [
-            {
-                "name": "HighchartsChart0",
-                "type": "HighchartsChart",
-                "minHeight": "400px",
-                "options": chart_options,
-            }
-        ],
     }
 
     logger.info("Display Chart visualization payload:\n%s", _as_json(visualization))
