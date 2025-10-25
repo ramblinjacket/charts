@@ -1,2 +1,4 @@
 data_explorer.py
 display_chart.py
+describe_chart.py
+customize_chart.py

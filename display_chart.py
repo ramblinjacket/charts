@@ -5,8 +5,7 @@ import logging
 from typing import Any
 
 from answer_rocket.client import AnswerRocketClient
-from skill_framework import SkillVisualization
-from skill_framework.skills import SkillInput, SkillOutput, SkillParameter, skill
+from skill_runtime import SkillInput, SkillOutput, SkillParameter, SkillVisualization, skill
 
 
 logger = logging.getLogger(__name__)

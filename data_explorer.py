@@ -3,7 +3,9 @@ from __future__ import annotations
 import os
 
 from answer_rocket.client import AnswerRocketClient
-from skill_framework.skills import SkillInput, SkillOutput, skill
+
+from chart_payloads import append_history_entry, ensure_metadata, persist_chart_payload
+from skill_runtime import SkillInput, SkillOutput, skill
 
 # Basic Highcharts JSON payload we want to persist with the chat entry
 HIGHCHART_CONFIGURATION = {
@@ -74,9 +76,17 @@ def save_chart(_: SkillInput) -> SkillOutput:
         return SkillOutput(final_prompt="Chart could not be saved because no chat entry ID was available.")
 
     payload = {"type": "highcharts", "data": HIGHCHART_CONFIGURATION}
-    did_save = client.chat.set_skill_memory_payload(payload, chat_entry_id=chat_entry_id)
+    ensure_metadata(payload)
+    append_history_entry(
+        payload,
+        actor="Data Explorer",
+        action="initial_save",
+        details={"chart_type": payload.get("data", {}).get("chart", {}).get("type")},
+    )
 
-    if not did_save:
-        return SkillOutput(final_prompt="Chart could not be saved to skill memory.")
+    try:
+        saved_id = persist_chart_payload(payload, chat_entry_id=chat_entry_id, client=client)
+    except Exception as exc:
+        return SkillOutput(final_prompt=f"Chart could not be saved to skill memory ({exc}).")
 
-    return SkillOutput(final_prompt=f"Chart saved to address {chat_entry_id}")
+    return SkillOutput(final_prompt=f"Chart saved to address {saved_id}")
